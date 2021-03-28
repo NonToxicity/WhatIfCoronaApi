@@ -31,6 +31,10 @@ def load():
     global loaded_model
     loaded_model = pickle.load(open('finalized_model.sav', 'rb'))
     label_encoder = LabelEncoder()
+    #label_encoder.classes_ = numpy.load('classesLabelEncoder.npy')
+    np_load_old = numpy.load
+    # modify the default parameters of np.load
+    np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
     label_encoder.classes_ = numpy.load('classesLabelEncoder.npy')
     oneHotEncoder = joblib.load('encoder.joblib')
         
