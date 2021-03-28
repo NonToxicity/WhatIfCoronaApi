@@ -6,6 +6,7 @@ import sklearn
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 import joblib
+import numpy
 
 
 loaded_model = None
