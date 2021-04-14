@@ -7,6 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 import joblib
 import numpy
+from sklearn import *
 
 
 loaded_model = None
@@ -18,7 +19,9 @@ app = flask.Flask(__name__)
 
 
 def home():
-    
+    global loaded_model
+    global label_encoder
+    global oneHotEncoder
     arg = request.args['predict']
     load()
     if(loaded_model != None):
@@ -36,7 +39,7 @@ def home():
         df[categorical_cols] = df[categorical_cols].apply(lambda col: label_encoder.transform(col))    
 
         # apply one hot encoding to categorical
-        array_hot_encoded = oneHotEncoder.fit_transform(df[categorical_cols])
+        array_hot_encoded = oneHotEncoder.transform(df[categorical_cols])
         data_hot_encoded = pd.DataFrame(array_hot_encoded)
         
         #Extract only the columns that didnt need to be encoded
@@ -49,7 +52,7 @@ def home():
         df = df.fillna(0) 
         df = df.applymap(str)
         df = df.applymap(float)
-        
+
         temp = df.iloc[0]
         temp = temp.values.reshape(1,-1) 
         
